@@ -1,0 +1,194 @@
+body{
+    text-align: center;
+    background-color: aquamarine;
+}
+#header{
+    background-color: rgb(21, 7, 223);
+    padding: 1px;
+    border-radius: 10px;
+}
+a{
+    text-decoration: none;
+    color:black;
+    font-size: large;
+}
+.navbar a{
+    text-decoration: none;
+    display: inline-block;
+    padding: 15px;
+    color: black;
+    background-color: rgb(21, 7, 223);
+    border-radius: 15px;
+}
+.navbar a:hover{
+    background-color: rgb(67, 175, 247);
+}
+li{
+    list-style: none;
+    padding: 2px;
+}
+.pic img{
+    width: 400px;
+    height: 200px;
+    border-radius: 20px;
+    box-shadow: 5px 5px 6px grey;
+}
+h1{
+    text-shadow: 3px 3px 4px grey;
+}
+#card{
+    background-color: lightcyan;
+    width: 300px;
+    margin: auto;
+    height: 100px;
+    text-align: center;
+    border-radius: 15px;
+    box-shadow: 4px 4px 5px grey;
+}
+#card:hover{
+    width: 330px;
+    height: 130px;
+}
+#btn{
+    background-color: lightblue;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    float: right;
+    margin-left: 10px;
+}
+#btn:hover{
+    background-color: skyblue;
+}
+#p{
+    font-family: 'popins', sans-serif;
+}
+#songs img{
+    width: 150px;
+    height: 200px;
+    border-radius: 15px;
+    padding: 5px;
+}
+#songs img:hover{
+    width: 250px;
+    height: 300px;
+}
+#songs embed:hover{
+    width: 250px;
+    height: 300px;
+}
+#songs embed{
+    width: 150px;
+    height: 200px;
+    border-radius: 15px;
+    padding: 5px;
+}
+#card1{
+    background-color: rgb(115, 243, 243);
+    width: 300px;
+    margin: auto;
+    height: 280px;
+    text-align: center;
+    border-radius: 15px;
+    box-shadow: 4px 4px 5px rgb(24, 23, 23), -4px -4px 5px rgb(24, 23, 23);
+}
+#voice{
+    width: 100px;
+    height: 50px;
+    background-color: lightcyan;
+    display: inline-block;
+    border-radius: 15px;
+    margin: 10px;
+}
+#voice:hover{
+    width: 130px;
+    height: 80px;
+}
+label1{
+    background-color: lightblue;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    float: right;
+    margin-left: 10px;
+}
+label1:hover{
+    background-color: skyblue;
+}
+#btn1{
+    background-color: lightblue;
+    padding: 20px;
+    border-radius: 10px;
+    border: none;
+    margin: 10px;
+}
+#btn1:hover{
+    background-color: skyblue;
+}
+#registerform{
+    width: 200px;
+    padding: 12px;
+    border-radius: 10px;
+    text-align: center;
+    margin: auto;
+}
+#registerform input{
+    width: 90%;
+    padding: 10px;
+    border-radius: 10px;
+    margin:10px;
+}
+#btn2{
+    background-color: blue;
+    padding: 20px;
+    border-radius: 10px;
+    border: none;
+    margin: 10px;
+}
+#btn2:hover{
+    background-color: skyblue;
+}
+#loginform{
+    width: 200px;
+    padding: 12px;
+    border-radius: 10px;
+    text-align: center;
+    margin: auto;
+}
+#loginform input{
+    width: 90%;
+    padding: 10px;
+    border-radius: 10px;
+    margin:10px;
+}
+#addMemberform{
+    width: 200px;
+    padding: 12px;
+    border-radius: 10px;
+    text-align: center;
+    margin: auto;
+}
+#addMemberform input{
+    width: 90%;
+    padding: 10px;
+    border-radius: 10px;
+    margin:10px;
+}
+#membersTable{
+    width: 80%;
+    margin:auto;
+    border-collapse: collapse;
+    background-color: lightcyan;
+}
+#voiceTable{
+    width: 80%;
+    margin:auto;
+    border-collapse: collapse;
+    background-color: lightcyan;
+}
+#voiceForm input{
+    width: 50%;
+    padding: 10px;
+    border-radius: 10px;
+    margin:10px;
+}

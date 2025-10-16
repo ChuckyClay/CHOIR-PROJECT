@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>register page</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="header">
+    <h1>ST THOMAS OF AQUINAS CHAPLAINACY CHOIR</h1>
+    <h3><i>"Singing is praying twice"</i></h3>
+    <nav class="navbar">
+        <a href="index.html">Home</a>
+        <a href="login.html">Login</a>
+    </nav>
+    </div>
+        <h2>Register</h2>
+        <form id="registerform">
+            <label for="fullname">Full Name:</label><br>
+            <input id="fullname" type="text" name="fullname" required /><br>
+            <label for="username">Username:</label><br>
+            <input id="username" type="text" name="username" required /><br>
+            <label for="email">Email:</label><br>
+            <input id="email" type="email" name="email" required /><br>
+            <label for="createpassword">Create password:</label><br>
+            <input id="createpassword" type="password" name="createpassword" required /><br>
+            <label for="confirmpassword">Confirm password:</label><br>
+            <input id="confirmpassword" type="password" name="confirmpassword" required /><br>
+            <button type="submit" id="btn2">Register</button>
+        </form>
+        <p id="registerMessage"></p>
+        <p>Already registered?  <a href="register.html">Login here</a></p>
+    <script src="script.js"></script>
+</body>
+</html>

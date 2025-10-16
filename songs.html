@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>songs page</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        #songDisplay {
+            display: flex;
+            flex-wrap: wrap;       /* allows multiple items per row */
+            justify-content: center;
+            gap: 15px;             /* spacing between items */
+            padding: 15px;
+            width: 100%;           /* full width container */
+            margin: auto;
+        }
+
+        .song-item {
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 10px;
+            background: #f8f8f8;
+            width: 150px;          /* fixed width for each song box */
+            height: 200px;         /* fixed height */
+            text-align: center;
+            flex-shrink: 0;        /* prevent shrinking */
+        }
+
+        .song-item img,
+        .song-item iframe {
+            width: 100%;
+            height: 150px;         /* fixed preview height */
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        #uploadsong {
+            cursor: pointer;
+            background: #4CAF50;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        #btn a {
+            text-decoration: none;
+            color: white;
+        }
+
+        #btn {
+            background: #333;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #upload {
+            display: none;
+        }
+
+        @media screen and (max-width: 600px){
+            .song-item {
+                width: 100px;          /* two items per row on small screens */
+                height: 150px;
+            }
+            .song-item img,
+            .song-item iframe {
+                height: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="header">
+        <h1>ST THOMAS OF AQUINAS CHAPLAINACY CHOIR</h1>
+        <h3><i>"Singing is praying twice"</i></h3>
+    </div>
+    <h2>Song Lyrics</h2>
+    
+    <input type="file" id="upload" accept="image/*,application/pdf">
+    <label for="upload" id="uploadsong">Add Song</label>
+
+    <div id="songDisplay"></div>
+
+    <button id="btn"><a href="activities.html">Back</a></button>
+
+<script>
+    const upload = document.getElementById("upload");
+    const songDisplay = document.getElementById("songDisplay");
+
+    // load saved songs from localStorage
+    let savedSongs = JSON.parse(localStorage.getItem("songs")) || [];
+    savedSongs.forEach((song, idx) => displaySong(song, idx));
+
+    upload.addEventListener("change", function() {
+        const file = this.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const fileData = e.target.result;
+            const song = { type: file.type, data: fileData };
+            savedSongs.push(song);
+            localStorage.setItem("songs", JSON.stringify(savedSongs));
+            displaySong(song, savedSongs.length - 1);
+        };
+        reader.readAsDataURL(file);
+    });
+
+    function displaySong(song, index){
+        const container = document.createElement("div");
+        container.classList.add("song-item");
+
+        let preview;
+        if (song.type.startsWith("image/")) {
+            preview = document.createElement("img");
+            preview.src = song.data;
+        } else if (song.type === "application/pdf") {
+            preview = document.createElement("iframe");
+            preview.src = song.data;
+        }
+
+        // open file in new tab when clicked
+        if(preview){
+        preview.addEventListener("click", () => {
+            const newWindow = window.open();
+            if (song.type.startsWith("image/")) {
+                newWindow.document.write(`<img src="${song.data}" style="width: 100%;">`);
+            } else {
+                newWindow.document.write(`<iframe src="${song.data}" width="100%" height="100%"></iframe>`);
+            }
+        });
+    }
+        const deleteBtn=document.createElement("button");
+        deleteBtn.textContent="Delete";
+        deleteBtn.style.padding="2px 4px";
+        deleteBtn.style.marginBottom="4px";
+        deleteBtn.style.backgroundColor="red";
+        deleteBtn.style.color="white";
+        deleteBtn.style.border="none";
+        deleteBtn.style.borderRadius="5px";
+
+        deleteBtn.addEventListener("click", ()=> {
+            const idx = savedSongs.indexOf(song);
+            if (idx > -1) {
+                savedSongs.splice(idx, 1);
+                localStorage.setItem("songs", JSON.stringify(savedSongs));
+            container.remove();
+            }
+        });
+
+        container.appendChild(deleteBtn);
+        container.appendChild(preview);
+        songDisplay.appendChild(container);
+    }
+</script>
+</body>
+</html>

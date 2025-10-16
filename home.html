@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>choir home page</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="header">
+    <h1>ST THOMAS OF AQUINAS CHAPLAINACY CHOIR</h1>
+    <h3><i>"Singing is praying twice"</i></h3>
+    <nav class="navbar">
+        <a href="home.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="members.html">Members</a>
+        <a href="activities.html">Activities</a>
+        <a href="#" id="logoutlink">Logout</a>
+    </nav>
+    </div>
+    <main>
+        <h2 id="greeting"></h2>
+    <h2>Welcome to the choir</h2>
+    <p id="p">Coming together as brothers and sisters
+         to help create an enabling environment in 
+         both school and diocese activities</p>
+    <h2>We ask for your co-operation brethrens..</h2>
+    <p><b>May the Almighty God bless you</b></p> 
+    <div class="pic">
+        <img src="choir.jpg" alt="choir picture" >
+    </div>  
+    </main> 
+    <script>
+        const currentUser=JSON.parse(localStorage.getItem("currentUser"));
+        const greeting=document.getElementById("greeting");
+        if(currentUser){
+            greeting.textContent=`Hello, ${currentUser.username}!`;
+        } else{
+            greeting.textContent="Hello! Please login first.";
+        }
+    </script> 
+<script src="script.js"></script>
+</body>
+</html>
