@@ -66,96 +66,47 @@
     const upload = document.getElementById("upload");
 const memoryDisplay = document.getElementById("memoryDisplay");
 
-// Load saved memories from localStorage
-let savedMemories = JSON.parse(localStorage.getItem("memories")) || [];
-savedMemories.forEach(memory => displayMemory(memory));
-
-// Handle file selection
 upload.addEventListener("change", function() {
     const files = Array.from(this.files);
-    if(files.length === 0) return;
-
     files.forEach(file => {
         const reader = new FileReader();
         reader.onload = function(e) {
-            const memoryData = e.target.result;
-            const memory = { type: file.type, data: memoryData };
-            savedMemories.push(memory);
-            localStorage.setItem("memories", JSON.stringify(savedMemories));
-            displayMemory(memory);
+            const mediaDiv = document.createElement("div");
+            mediaDiv.classList.add("media-item");
+
+            if (file.type.startsWith("image/")) {
+                mediaDiv.innerHTML = `
+                    <img src="${e.target.result}" alt="choir photo">
+                    <button class="delete-btn">Delete</button>
+                `;
+            } else if (file.type.startsWith("video/")) {
+                mediaDiv.innerHTML = `
+                    <video src="${e.target.result}" controls></video>
+                    <button class="delete-btn">Delete</button>
+                    <button class="open-btn">Open</button>
+                `;
+            }
+
+            memoryDisplay.appendChild(mediaDiv);
         };
         reader.readAsDataURL(file);
     });
-
-    // Reset input to allow same file selection again
-    this.value = "";
+    this.value = ""; // Reset file input so same file can be re-added
 });
 
-function displayMemory(memory){
-    const container = document.createElement("div");
-    container.classList.add("memory-item");
-
-    let preview;
-
-    if(memory.type.startsWith("image/")){
-        // Image preview
-        preview = document.createElement("img");
-        preview.src = memory.data;
-    } 
-    else if(memory.type.startsWith("video/")){
-        // Video thumbnail preview
-        const video = document.createElement("video");
-        video.src = memory.data;
-        video.preload = "metadata";
-
-        preview = document.createElement("img"); // placeholder for thumbnail
-        preview.style.width = "100%";
-        preview.style.height = "150px";
-        preview.style.objectFit = "cover";
-
-        video.addEventListener("loadeddata", () => {
-            const canvas = document.createElement("canvas");
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
-            const ctx = canvas.getContext("2d");
-            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-            preview.src = canvas.toDataURL();
-        });
+// Handle delete & open buttons (event delegation)
+memoryDisplay.addEventListener("click", function(e) {
+    if (e.target.classList.contains("delete-btn")) {
+        e.target.parentElement.remove();
+    } else if (e.target.classList.contains("open-btn")) {
+        const video = e.target.parentElement.querySelector("video");
+        if (video) {
+            const videoUrl = video.src;
+            window.open(videoUrl, "_blank"); // open in new page/tab
+        }
     }
+});
 
-    // Open in new tab on click
-    preview.addEventListener("click", () => {
-        const newWindow = window.open();
-        if(memory.type.startsWith("image/")){
-            newWindow.document.write(`<img src="${memory.data}" style="width:100%;">`);
-        } else {
-            newWindow.document.write(`<video src="${memory.data}" controls autoplay style="width:100%; height:auto;"></video>`);
-        }
-    });
-
-    // Delete button
-    const deleteBtn = document.createElement("button");
-    deleteBtn.textContent = "Delete";
-    deleteBtn.style.padding = "2px 4px";
-    deleteBtn.style.marginBottom = "4px";
-    deleteBtn.style.backgroundColor = "red";
-    deleteBtn.style.color = "white";
-    deleteBtn.style.border = "none";
-    deleteBtn.style.borderRadius = "5px";
-
-    deleteBtn.addEventListener("click", () => {
-        const idx = savedMemories.indexOf(memory);
-        if(idx > -1){
-            savedMemories.splice(idx, 1);
-            localStorage.setItem("memories", JSON.stringify(savedMemories));
-            container.remove();
-        }
-    });
-
-    container.appendChild(deleteBtn);
-    container.appendChild(preview);
-    memoryDisplay.appendChild(container);
-}
 </script>
 </body>
 </html>
