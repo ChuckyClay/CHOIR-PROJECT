@@ -102,24 +102,27 @@
             localStorage.setItem("memories", JSON.stringify(savedMemories));
             displayMemory(memory, savedMemories.length -1);
         };
-        reader.readAsDataURL(memory);
+        reader.readAsDataURL(file);
     });
     function displayMemory(memory, index){
         const container=document.createElement("div");
         container.classList.add("memory-item");
 
-        let priview;
+        let preview;
         if ( memory.type.startsWith("image/")) {
             preview=document.createElement("img");
-            priview.src=memory.data;
+            preview.src=memory.data;
         } else if ( memory.type === "video/"){
-            priview=document.createElement("iframe");
-            priview.src=memory.data;
+            preview=document.createElement("video");
+            preview.src=memory.data;
+            preview.controls=true;
+            preview.style.width="100%";
+            priview.style.height="150px";
         }
 
         //open file in new tab when clicked
-        if(priview){
-            priview.addEventListener("click", () => {
+        if(preview){
+            preview.addEventListener("click", () => {
                 const newWindow=window.open();
                 if(memory.type.startsWith("image/")) {
                     newWindow.document.write(`<img src="${memory.data}" style="width: 100%;">`);
@@ -140,7 +143,7 @@
         deleteBtn.addEventListener("click", ()=> {
             const idx = savedMemories.indexOf(memory);
             if (idx > -1) {
-                savedSongs.splice(idx, 1);
+                savedMemories.splice(idx, 1);
                 localStorage.setItem("memories", JSON.stringify(savedMemories));
                 container.remove();
             }
@@ -148,8 +151,8 @@
 
         container.appendChild(deleteBtn);
         container.appendChild(preview);
-        songDisplay.appendChild(container);
+        memoryDisplay.appendChild(container);
     }
 </script>
-</body><br><br>
+</body>
 </html>
