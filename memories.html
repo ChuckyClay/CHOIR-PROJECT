@@ -93,7 +93,7 @@
     
     upload.addEventListener("change", function(){
         const files=Array.from(this.files)
-        if(!files.length === 0) return;
+        if(files.length === 0) return;
 
         files.forEach(file => {
         const reader=new FileReader();
@@ -121,7 +121,7 @@
             preview.src=memory.data;
             preview.controls=true;
             preview.style.width="100%";
-            priview.style.height="150px";
+            preview.style.height="150px";
         }
 
         //open file in new tab when clicked
