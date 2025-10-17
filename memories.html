@@ -116,7 +116,7 @@
         if ( memory.type.startsWith("image/")) {
             preview=document.createElement("img");
             preview.src=memory.data;
-        } else if ( memory.type === "video/"){
+        } else if ( memory.type.startsWith("video/")){
             preview=document.createElement("video");
             preview.src=memory.data;
             preview.controls=true;
