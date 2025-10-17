@@ -1,6 +1,16 @@
 body{
     text-align: center;
     background-color: aquamarine;
+    font-family: Arial, sans-serif;
+}
+.container{
+    width: 90%;
+    max-width: 500px;
+    margin: auto;
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 #header{
     background-color: rgb(21, 7, 223);
@@ -104,17 +114,7 @@ h1{
     width: 130px;
     height: 80px;
 }
-label1{
-    background-color: lightblue;
-    padding: 10px;
-    border-radius: 10px;
-    border: none;
-    float: right;
-    margin-left: 10px;
-}
-label1:hover{
-    background-color: skyblue;
-}
+
 #btn1{
     background-color: lightblue;
     padding: 20px;
@@ -191,4 +191,19 @@ label1:hover{
     padding: 10px;
     border-radius: 10px;
     margin:10px;
+}
+@media (max-width: 600px) {
+  h1 {
+    font-size: 20px;
+  }
+
+  button, label {
+    font-size: 14px;
+    padding: 6px 10px;
+  }
+
+  img, iframe {
+    width: 100%;
+    height: auto;
+  }
 }
