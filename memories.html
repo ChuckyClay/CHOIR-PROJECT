@@ -11,7 +11,7 @@
             flex-wrap: wrap;
             justify-content: center;
             gap: 15px;
-            padding: 15px;
+            padding: 5px;
             width: 100%;
             margin: auto;
         }
@@ -79,7 +79,7 @@
     </div><br> 
     <h2>Memories</h2>
     <p>Here are our memorable moments</p>
-    <input type="file" id="upload" accept="image/*" style="display:none;">
+    <input type="file" id="upload" accept="image/*, video/*" multiple style="display:none;">
     <label for="upload" id="uploadmemory">Add Memory</label> <!--this is to open where to take the photo from-->
 <div id="memoryDisplay"></div>
 <button id="btn" onclick="location.href='activities.html'">Back</button>
@@ -92,9 +92,10 @@
     savedMemories.forEach((memory, idx) => displayMemory(memory, idx));
     
     upload.addEventListener("change", function(){
-        const file=this.files[0];
-        if(!file) return;
+        const files=Array.from(this.files)
+        if(!files.length === 0) return;
 
+        files.forEach(file => {
         const reader=new FileReader();
         reader.onload=function(e){
             const memoryData=e.target.result;
@@ -104,6 +105,7 @@
             displayMemory(memory, savedMemories.length -1);
         };
         reader.readAsDataURL(file);
+        });
     });
     function displayMemory(memory, index){
         const container=document.createElement("div");
