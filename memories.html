@@ -63,13 +63,14 @@
 <button id="btn" onclick="location.href='activities.html'">Back</button>
 
 <script>
-const upload = document.getElementById("upload");
+    const upload = document.getElementById("upload");
 const memoryDisplay = document.getElementById("memoryDisplay");
 
 // Load saved memories from localStorage
 let savedMemories = JSON.parse(localStorage.getItem("memories")) || [];
-savedMemories.forEach((memory, idx) => displayMemory(memory, idx));
+savedMemories.forEach(memory => displayMemory(memory));
 
+// Handle file selection
 upload.addEventListener("change", function() {
     const files = Array.from(this.files);
     if(files.length === 0) return;
@@ -81,7 +82,7 @@ upload.addEventListener("change", function() {
             const memory = { type: file.type, data: memoryData };
             savedMemories.push(memory);
             localStorage.setItem("memories", JSON.stringify(savedMemories));
-            displayMemory(memory, savedMemories.length - 1);
+            displayMemory(memory);
         };
         reader.readAsDataURL(file);
     });
@@ -90,22 +91,39 @@ upload.addEventListener("change", function() {
     this.value = "";
 });
 
-function displayMemory(memory, index){
+function displayMemory(memory){
     const container = document.createElement("div");
     container.classList.add("memory-item");
 
     let preview;
+
     if(memory.type.startsWith("image/")){
+        // Image preview
         preview = document.createElement("img");
         preview.src = memory.data;
-    } else if(memory.type.startsWith("video/")){
-        preview = document.createElement("img"); // thumbnail placeholder
-        preview.src = "video-placeholder.png";   // replace with your placeholder
+    } 
+    else if(memory.type.startsWith("video/")){
+        // Video thumbnail preview
+        const video = document.createElement("video");
+        video.src = memory.data;
+        video.preload = "metadata";
+
+        preview = document.createElement("img"); // placeholder for thumbnail
         preview.style.width = "100%";
-        preview.style.height = "120px";
+        preview.style.height = "150px";
+        preview.style.objectFit = "cover";
+
+        video.addEventListener("loadeddata", () => {
+            const canvas = document.createElement("canvas");
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            preview.src = canvas.toDataURL();
+        });
     }
 
-    // Open file in new tab when clicked
+    // Open in new tab on click
     preview.addEventListener("click", () => {
         const newWindow = window.open();
         if(memory.type.startsWith("image/")){
@@ -126,9 +144,12 @@ function displayMemory(memory, index){
     deleteBtn.style.borderRadius = "5px";
 
     deleteBtn.addEventListener("click", () => {
-        savedMemories.splice(index, 1);
-        localStorage.setItem("memories", JSON.stringify(savedMemories));
-        container.remove();
+        const idx = savedMemories.indexOf(memory);
+        if(idx > -1){
+            savedMemories.splice(idx, 1);
+            localStorage.setItem("memories", JSON.stringify(savedMemories));
+            container.remove();
+        }
     });
 
     container.appendChild(deleteBtn);
