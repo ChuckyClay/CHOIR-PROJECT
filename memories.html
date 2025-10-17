@@ -17,7 +17,7 @@
         }
         .memory-item{
             border: 1px solid #ccc;
-            padding: 10px;
+            padding: 5px;
             border-radius: 10px;
             background: #f8f8f8;
             width: 150px;          /* fixed width for each song box */
@@ -27,7 +27,7 @@
         }
 
         .memory-item img,
-        .memory-item iframe {
+        .memory-item video {
             width: 100%;
             height: 150px;         /* fixed preview height */
             border-radius: 8px;
@@ -60,12 +60,12 @@
         }
 
         @media screen and (max-width: 600px){
-            .song-item {
+            .memory-item {
                 width: 100px;          /* two items per row on small screens */
                 height: 150px;
             }
-            .song-item img,
-            .song-item iframe {
+            .memory-item img,
+            .memory-item video {
                 height: 120px;
             }
         }
@@ -80,7 +80,7 @@
     <h2>Memories</h2>
     <p>Here are our memorable moments</p>
     <input type="file" id="upload" accept="image/*, video/*" multiple style="display:none;">
-    <label for="upload" id="uploadmemory">Add Memory</label> <!--this is to open where to take the photo from-->
+    <label for="upload" id="uploadmemory">Add Memory</label><br><hr> <!--this is to open where to take the photo from-->
 <div id="memoryDisplay"></div>
 <button id="btn" onclick="location.href='activities.html'">Back</button>
 
@@ -131,7 +131,7 @@
                 if(memory.type.startsWith("image/")) {
                     newWindow.document.write(`<img src="${memory.data}" style="width: 100%;">`);
                 } else {
-                    newWindow.document.write(`<iframe src="${memory.data}" width="100%"></iframe>`);
+                    newWindow.document.write(`<video src="${memory.data}" controls style="width:100%; height:auto;" ></video>`);
                 }
             });
         }
