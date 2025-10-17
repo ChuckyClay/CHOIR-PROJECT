@@ -23,13 +23,7 @@
     box-shadow: 0 0 5px rgba(0,0,0,0.1);
 }
 
-.media-item img{
-    width: 100%;
-    height: 150px;
-    object-fit: cover;
-    border-radius: 8px;
-    cursor: pointer;
-}
+.media-item img,
 .media-item video {
     width: 100%;
     height: 110px;
@@ -67,7 +61,10 @@
     .media-item {
         width: 100px;
     }
-    .media-item img, .media-item video {
+    .media-item img  {
+        height: 100px;
+    } 
+    .media-item video {
         height: 80px;
     }
 }
