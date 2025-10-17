@@ -4,14 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Memories Page</title>
+<link rel="stylesheet" href="style.css">
 <style>
-body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    background: #fafafa;
-}
-h1 { color: #333; }
-
 #memoryDisplay {
     display: flex;
     flex-wrap: wrap;
@@ -36,16 +30,6 @@ h1 { color: #333; }
     object-fit: cover;
     border-radius: 8px;
     cursor: pointer;
-}
-
-button {
-    margin-top: 5px;
-    padding: 4px 6px;
-    border: none;
-    border-radius: 4px;
-    color: white;
-    cursor: pointer;
-    font-size: 13px;
 }
 
 .delete-btn {
@@ -141,8 +125,16 @@ memoryDisplay.addEventListener("click", function(e) {
         `);
     }
     else if (media && media.tagName === "IMG") {
-        // Open image in new tab
-        window.open(media.src, "_blank");
+        // ✅ Fixed: Show image in new tab properly
+        const newWindow = window.open();
+        newWindow.document.write(`
+            <html>
+                <head><title>View Image</title></head>
+                <body style="margin:0; background:black; display:flex; justify-content:center; align-items:center; height:100vh;">
+                    <img src="${media.src}" style="max-width:100%; max-height:100%;">
+                </body>
+            </html>
+        `);
     }
 });
 </script>
