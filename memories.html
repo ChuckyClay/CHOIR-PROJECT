@@ -117,7 +117,7 @@
             preview=document.createElement("img");
             preview.src=memory.data;
         } else if ( memory.type.startsWith("video/")){
-            preview=document.createElement("video");
+            preview=document.createElement("img");
             preview.src=memory.data;
             preview.controls=true;
             preview.style.width="100%";
@@ -145,12 +145,9 @@
         deleteBtn.style.borderRadius="5px";
 
         deleteBtn.addEventListener("click", ()=> {
-            const idx = savedMemories.indexOf(memory);
-            if (idx > -1) {
-                savedMemories.splice(idx, 1);
+                savedMemories.splice(index, 1);
                 localStorage.setItem("memories", JSON.stringify(savedMemories));
                 container.remove();
-            }
         });
 
         container.appendChild(deleteBtn);
