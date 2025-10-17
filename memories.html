@@ -3,67 +3,99 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Memories page</title>
-<link rel="stylesheet" href="style.css">
+<title>Memories Page</title>
 <style>
-/* Your existing CSS unchanged */
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background: #fafafa;
+}
+h1 { color: #333; }
+
 #memoryDisplay {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 15px;
-    padding: 5px;
-    width: 100%;
-    margin: auto;
+    gap: 12px;
+    padding: 10px;
 }
-.memory-item{
+
+.media-item {
     border: 1px solid #ccc;
-    padding: 5px;
     border-radius: 10px;
-    background: #f8f8f8;
-    width: 150px;
-    height: 200px;
-    text-align: center;
-    flex-shrink: 0; 
+    padding: 5px;
+    width: 140px;
+    background: white;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
 }
-.memory-item img,
-.memory-item video {
+
+.media-item img,
+.media-item video {
     width: 100%;
-    height: 150px;
+    height: 110px;
+    object-fit: cover;
     border-radius: 8px;
     cursor: pointer;
 }
-#uploadmemory{
+
+button {
+    margin-top: 5px;
+    padding: 4px 6px;
+    border: none;
+    border-radius: 4px;
+    color: white;
     cursor: pointer;
+    font-size: 13px;
+}
+
+.delete-btn {
+    background: red;
+}
+.open-btn {
+    background: #333;
+}
+
+#uploadmemory {
+    display: inline-block;
+    margin-top: 10px;
     background: #4CAF50;
     color: white;
     padding: 8px 12px;
-    border-radius: 5px;
+    border-radius: 6px;
+    cursor: pointer;
     font-weight: bold;
 }
-#btn a { text-decoration: none; color: white; }
-#btn { background: #333; color: white; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer; }
 #upload { display: none; }
-@media screen and (max-width: 600px){
-    .memory-item { width: 100px; height: 150px; }
-    .memory-item img, .memory-item video { height: 120px; }
+
+@media screen and (max-width: 600px) {
+    .media-item {
+        width: 100px;
+    }
+    .media-item img, .media-item video {
+        height: 80px;
+    }
 }
 </style>
 </head>
 <body>
-<div id="header">
-    <h1>ST THOMAS OF AQUINAS CHAPLAINACY CHOIR</h1>
-    <h3><i>"Singing is praying twice"</i></h3>
-</div>
+
+<h1>ST THOMAS OF AQUINAS CHAPLAINCY CHOIR</h1>
+<h3><i>"Singing is praying twice"</i></h3>
+
 <h2>Memories</h2>
 <p>Here are our memorable moments</p>
+
 <input type="file" id="upload" accept="image/*,video/*" multiple>
-<label for="upload" id="uploadmemory">Add Memory</label><br><hr>
+<label for="upload" id="uploadmemory">Add Memory</label>
+
+<hr>
+
 <div id="memoryDisplay"></div>
+
 <button id="btn" onclick="location.href='activities.html'">Back</button>
 
 <script>
-    const upload = document.getElementById("upload");
+const upload = document.getElementById("upload");
 const memoryDisplay = document.getElementById("memoryDisplay");
 
 upload.addEventListener("change", function() {
@@ -81,7 +113,7 @@ upload.addEventListener("change", function() {
                 `;
             } else if (file.type.startsWith("video/")) {
                 mediaDiv.innerHTML = `
-                    <video src="${e.target.result}" controls></video>
+                    <video src="${e.target.result}" preload="metadata"></video>
                     <button class="delete-btn">Delete</button>
                     <button class="open-btn">Open</button>
                 `;
@@ -91,22 +123,29 @@ upload.addEventListener("change", function() {
         };
         reader.readAsDataURL(file);
     });
-    this.value = ""; // Reset file input so same file can be re-added
+    this.value = "";
 });
 
-// Handle delete & open buttons (event delegation)
+// Handle delete & open buttons
 memoryDisplay.addEventListener("click", function(e) {
+    const parent = e.target.closest(".media-item");
+    const media = parent?.querySelector("img, video");
+
     if (e.target.classList.contains("delete-btn")) {
-        e.target.parentElement.remove();
-    } else if (e.target.classList.contains("open-btn")) {
-        const video = e.target.parentElement.querySelector("video");
-        if (video) {
-            const videoUrl = video.src;
-            window.open(videoUrl, "_blank"); // open in new page/tab
-        }
+        parent.remove();
+    } 
+    else if (e.target.classList.contains("open-btn") && media) {
+        const newWindow = window.open();
+        newWindow.document.write(`
+            <video src="${media.src}" controls autoplay style="width:100%; height:auto; background:black;"></video>
+        `);
+    }
+    else if (media && media.tagName === "IMG") {
+        // Open image in new tab
+        window.open(media.src, "_blank");
     }
 });
-
 </script>
+
 </body>
 </html>
