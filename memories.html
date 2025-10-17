@@ -6,15 +6,68 @@
     <title>Memories page</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        #uploadmemory{
-            background-color: lightblue;
-            padding: 20px;
-            border-radius: 10px;
-            border: none;
-            margin: 10px;
+        #memoryDisplay {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            padding: 15px;
+            width: 100%;
+            margin: auto;
         }
-        #uploadmemory:hover{
-            background-color: skyblue;
+        .memory-item{
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 10px;
+            background: #f8f8f8;
+            width: 150px;          /* fixed width for each song box */
+            height: 200px;         /* fixed height */
+            text-align: center;
+            flex-shrink: 0; 
+        }
+
+        .memory-item img,
+        .memory-item iframe {
+            width: 100%;
+            height: 150px;         /* fixed preview height */
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        #uploadmemory{
+            cursor: pointer;
+            background: #4CAF50;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        #btn a {
+            text-decoration: none;
+            color: white;
+        }
+
+        #btn {
+            background: #333;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #upload {
+            display: none;
+        }
+
+        @media screen and (max-width: 600px){
+            .song-item {
+                width: 100px;          /* two items per row on small screens */
+                height: 150px;
+            }
+            .song-item img,
+            .song-item iframe {
+                height: 120px;
+            }
         }
     </style>
 </head>
@@ -25,8 +78,78 @@
     </div><br> 
     <h2>Memories</h2>
     <p>Here are our memorable moments</p>
-</body><br><br>
+    <input type="file" id="upload" accept="image/*" style="display:none;">
+    <label for="upload" id="uploadmemory">Add Memory</label> <!--this is to open where to take the photo from-->
+<div id="memoryDisplay"></div>
 <button id="btn"><a href="activities.html">Back</a> </button>
-<input type="file" id="upload" accept="image/*" style="display:none;">
-<label for="upload" id="uploadmemory">Add Memory</label> <!--this is to open where to take the photo from-->
+
+<script>
+    const upload=document.getElementById("upload");
+    const memoryDisplay=document.getElementById("memoryDisplay");
+    //function to display memory
+    let savedMemories=JSON.parse(localStorage.getItem("memories")) || [];
+    savedMemories.forEach((memory, idx) => displayMemory(memory, idx));
+    
+    upload.addEventListener("change", function(){
+        const file=this.files[0];
+        if(!file) return;
+
+        const reader=new FileReader();
+        reader.onload=function(e){
+            const memoryData=e.target.result;
+            const memory={type: file.type, data: memoryData};
+            savedMemories.push(memory);
+            localStorage.setItem("memories", JSON.stringify(savedMemories));
+            displayMemory(memory, savedMemories.length -1);
+        };
+        reader.readAsDataURL(memory);
+    });
+    function displayMemory(memory, index){
+        const container=document.createElement("div");
+        container.classList.add("memory-item");
+
+        let priview;
+        if ( memory.type.startsWith("image/")) {
+            preview=document.createElement("img");
+            priview.src=memory.data;
+        } else if ( memory.type === "video/"){
+            priview=document.createElement("iframe");
+            priview.src=memory.data;
+        }
+
+        //open file in new tab when clicked
+        if(priview){
+            priview.addEventListener("click", () => {
+                const newWindow=window.open();
+                if(memory.type.startsWith("image/")) {
+                    newWindow.document.write(`<img src="${memory.data}" style="width: 100%;">`);
+                } else {
+                    newWindow.document.write(`<iframe src="${memory.data}" width="100%"></iframe>`);
+                }
+            });
+        }
+        const deleteBtn=document.createElement("button");
+        deleteBtn.textContent="Delete";
+        deleteBtn.style.padding="2px 4px";
+        deleteBtn.style.marginBottom="4px";
+        deleteBtn.style.backgroundColor="red";
+        deleteBtn.style.color="white";
+        deleteBtn.style.border="none";
+        deleteBtn.style.borderRadius="5px";
+
+        deleteBtn.addEventListener("click", ()=> {
+            const idx = savedMemories.indexOf(memory);
+            if (idx > -1) {
+                savedSongs.splice(idx, 1);
+                localStorage.setItem("memories", JSON.stringify(savedMemories));
+                container.remove();
+            }
+        });
+
+        container.appendChild(deleteBtn);
+        container.appendChild(preview);
+        songDisplay.appendChild(container);
+    }
+</script>
+</body><br><br>
 </html>
