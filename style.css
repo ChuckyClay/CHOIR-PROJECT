@@ -208,4 +208,7 @@ h1{
     width: 100%;
     height: auto;
   }
+  textarea{
+    margin: auto;
+  }
 }
