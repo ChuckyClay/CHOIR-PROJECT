@@ -75,8 +75,8 @@
         }
     </style>
 </head>
-<div class="container">
 <body>
+<div class="container">
     <div id="header">
         <h1>ST THOMAS OF AQUINAS CHAPLAINACY CHOIR</h1>
         <h3><i>"Singing is praying twice"</i></h3>
@@ -96,7 +96,7 @@
     const upload = document.getElementById("upload");
     const songDisplay = document.getElementById("songDisplay");
 
-    // load saved songs from localStorage
+    // this will load saved songs from localStorage
     let savedSongs = JSON.parse(localStorage.getItem("songs")) || [];
     savedSongs.forEach((song, idx) => displaySong(song, idx));
 
@@ -128,7 +128,7 @@
             preview.src = song.data;
         }
 
-        // open file in new tab when clicked
+        // this will open a file in a new tab when clicked
         if(preview){
         preview.addEventListener("click", () => {
             const newWindow = window.open();
@@ -139,6 +139,7 @@
             }
         });
     }
+    //this is for the delete button in the files added
         const deleteBtn=document.createElement("button");
         deleteBtn.textContent="Delete";
         deleteBtn.style.padding="2px 4px";
@@ -162,6 +163,6 @@
         songDisplay.appendChild(container);
     }
 </script>
-</body>
 </div>
+</body>
 </html>
